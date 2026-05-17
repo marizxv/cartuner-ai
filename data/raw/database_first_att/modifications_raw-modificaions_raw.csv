@@ -1,0 +1,3 @@
+modificaions_raw
+mod_id   ;mod_name  ;mod_category ;old_to_new_hp (DELETE LATER – FOR CALCULATIONS ONLY);typical_hp_gain_pct ;new_tq;typical_tq_gain_pct  (DELETE LATER – FOR CALCULATIONS ONLY);compatible_with;notes          
+1;ECU Remap Stage 1;ecu;286;30;383;48.4;turbo_only;

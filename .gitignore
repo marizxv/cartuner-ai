@@ -9,11 +9,10 @@ venv/
 # Jupyter
 .ipynb_checkpoints/
 
-# Data — raw data stays local, only schema and samples go to git
-data/raw/
-data/interim/
+
 *.db
 
 # OS
 .DS_Store
 Thumbs.db
+.gitignore

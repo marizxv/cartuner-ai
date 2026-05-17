@@ -1,0 +1,6 @@
+cars_raw
+car_id;make;model;variant;year_from;year_to;displacement_cc;cylinders;stock_hp;stock_torque_nm;weight_kg;drivetrain;transmission;drag_coef;frontal_area_m2;top_speed_stock;zero_hundred_stock;source_url
+1;Volkswagen;Golf;GTI mk7;2013;2017;1984;4;220;350;1432;RWD;manual;0.31;2.21;250;6.5;(Mixed forgot)
+2;Honda;civic;type R fk8;2017;2021;1996;4;316;400;1455;FWD;manual;0.26;2.26;272;5.7;https://www.ultimatespecs.com/car-specs/Honda/M8969/Civic-10-5-doors, https://www.topspeed.com/cars/car-news/watch-how-honda-manages-air-on-the-civic-type-r/ ( drag coefficient)
+3;Ford;Focus;ST Mk3;2012;2018;1999;4;246;345;1461;FWD;manual;0.3;;248;6.5;https://www.parkers.co.uk/ford/focus/st-2012/20t-st-3-estate-(0115-)-5d/specs/
+4;BMW;135i;E82;2007;2013;2979;6;306;400;1530;RWD;manual;0.33;;250;5.3;https://www.autocentrum.pl/dane-techniczne/bmw/seria-1/e81-e87/coupe-e82/silnik-benzynowy-135i-306km-2007-2013/, https://www.ultimatespecs.com/car-specs/BMW/63149/BMW-E82-1-Series-Coupe-135i.html
