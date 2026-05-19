@@ -1,8 +1,16 @@
 """
-Scrapers for stock-specs and modification data.
+Scrapers for stock specs and modification data.
 
-Usage (from repo root, with venv active):
-    python -c "from src.scraper import scrape_ultimatespecs_car; print(scrape_ultimatespecs_car('https://www.ultimatespecs.com/car-specs/Volkswagen/65173/'))"
+Sources:
+  - parkers.co.uk  →  cars table  (stock specs)
+  - goapr.com      →  modifications table
+
+Usage example (from repo root, venv active):
+    python3 -c "
+    from src.scraper import scrape_parkers
+    import pprint
+    pprint.pprint(scrape_parkers('https://www.parkers.co.uk/ford/focus/st-2012/20t-st-3-estate-(0115-)-5d/specs/'))
+    "
 """
 
 import re
@@ -18,116 +26,107 @@ log = logging.getLogger(__name__)
 HEADERS = {
     "User-Agent": (
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/124.0 Safari/537.36"
+        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
     )
 }
-DELAY = 2.5  # seconds between requests — be polite
+DELAY = 2.0  # seconds between requests
 
 
 # ---------------------------------------------------------------------------
-# Internal helpers
+# Helpers
 # ---------------------------------------------------------------------------
 
-def _get_soup(url: str) -> BeautifulSoup:
-    log.info(f"GET {url}")
-    resp = requests.get(url, headers=HEADERS, timeout=15)
-    resp.raise_for_status()
+def _fetch(url: str) -> BeautifulSoup:
+    log.info(f"Fetching {url}")
+    r = requests.get(url, headers=HEADERS, timeout=15)
+    r.raise_for_status()
     time.sleep(DELAY)
-    return BeautifulSoup(resp.text, "lxml")
+    return BeautifulSoup(r.text, "lxml")
 
 
-def _extract_float(text: str, pattern: str) -> float | None:
-    """Pull the first regex match out of a string and cast to float."""
+def _num(text: str, pattern: str) -> float | None:
+    """Extract the first number matching `pattern` from `text`. Returns None if no match."""
     if not text:
         return None
-    m = re.search(pattern, text.replace(",", "").replace(" ", ""))
+    m = re.search(pattern, text.replace(",", ""))
     return float(m.group(1)) if m else None
 
 
 # ---------------------------------------------------------------------------
-# ultimatespecs.com — stock car specs
+# parkers.co.uk — stock car specs
+# ---------------------------------------------------------------------------
+#
+# URL pattern:
+#   https://www.parkers.co.uk/{make}/{model}/{generation}/{variant}/specs/
+#
+# Example:
+#   https://www.parkers.co.uk/ford/focus/st-2012/20t-st-3-estate-(0115-)-5d/specs/
+#   https://www.parkers.co.uk/volkswagen/golf/mk7-2012/2-0-tsi-gti-performance-5d/specs/
+#   https://www.parkers.co.uk/honda/civic-type-r/2015/2-0-ivtec-type-r-gt-5d/specs/
+#
+# Finding URLs: go to parkers.co.uk, search for the car, click Specs.
 # ---------------------------------------------------------------------------
 
-def scrape_ultimatespecs_car(url: str) -> dict:
+def scrape_parkers(url: str) -> dict:
     """
-    Scrape one car's stock specs from ultimatespecs.com.
+    Scrape one car's stock specs from a parkers.co.uk /specs/ page.
 
-    ultimatespecs stores each spec in a <li> (or <div>) with two child elements:
-    the label and the value.  The exact selectors can vary between page
-    versions — the function tries two known layouts and falls back to a
-    text-based scan if neither matches.
+    Returns a flat dict with the columns that go into cars_raw.csv.
+    Units: hp in bhp (≈ same as hp), speed in km/h, weight in kg, engine in cc.
 
-    Returns a flat dict ready to be inserted as a row in the `cars` table.
-    Includes a '_raw' key with every key→value pair found (useful for
-    debugging / extending the parser).
+    Parkers gives 0-60 mph which is essentially 0-100 km/h (100 km/h = 62.1 mph,
+    difference is ~0.1-0.2 sec). Stored as zero_to_100 with a note.
     """
-    soup = _get_soup(url)
+    soup = _fetch(url)
+
+    # Every spec is in:  <li class="specs-detail-table__item">
+    #   <span class="specs-detail-table__item__label">Label</span>
+    #   <span class="specs-detail-table__item__value">Value</span>
+    # Some specs appear twice (once in summary, once in detail).
+    # We keep the LAST occurrence — the detail section is more complete.
     raw: dict[str, str] = {}
-
-    # Layout A: <ul class="list-unstyled"> rows with two <li> children
-    for row in soup.select("ul.list-unstyled > li"):
-        children = [c for c in row.children if c.name]
-        if len(children) == 2:
-            key = children[0].get_text(strip=True).lower().rstrip(":")
-            val = children[1].get_text(strip=True)
-            raw[key] = val
-
-    # Layout B: table rows  <tr><th>label</th><td>value</td></tr>
-    if not raw:
-        for row in soup.select("tr"):
-            th = row.find("th")
-            td = row.find("td")
-            if th and td:
-                key = th.get_text(strip=True).lower().rstrip(":")
-                raw[key] = td.get_text(strip=True)
-
-    # Layout C: .title / .value spans inside .rowOdd / .rowEven divs
-    if not raw:
-        for row in soup.select("div.rowOdd, div.rowEven"):
-            title = row.select_one(".title, .specLabel")
-            value = row.select_one(".value, .specValue")
-            if title and value:
-                raw[title.get_text(strip=True).lower().rstrip(":")] = value.get_text(strip=True)
+    for item in soup.select("li.specs-detail-table__item"):
+        label = item.select_one(".specs-detail-table__item__label")
+        value = item.select_one(".specs-detail-table__item__value")
+        if label and value:
+            raw[label.get_text(strip=True).lower()] = value.get_text(strip=True)
 
     if not raw:
-        log.warning("No spec rows found — the page structure may have changed.")
-        log.warning("Save the page HTML and inspect it to update the selectors.")
+        log.warning(f"No specs found on {url} — parkers may have changed their HTML.")
+        return {"source_url": url}
 
-    # Page title for a human-readable label
+    # Page title
     h1 = soup.find("h1")
     raw_title = h1.get_text(strip=True) if h1 else url
 
-    # Map raw keys to schema columns
-    # Keys vary slightly across page versions, so we check several aliases
-    def get(*keys: str) -> str:
-        for k in keys:
-            for raw_key in raw:
-                if k in raw_key:
-                    return raw[raw_key]
-        return ""
+    top_speed_mph = _num(raw.get("top speed", ""), r"(\d+)")
+    zero_60       = _num(raw.get("acceleration 0-60mph", ""), r"(\d+\.?\d*)")
 
     return {
-        "source_url": url,
-        "raw_title": raw_title,
-        "hp_stock":           _extract_float(get("max power", "power"), r"(\d+)\s*[Hh][Pp]"),
-        "torque_nm_stock":    _extract_float(get("max torque", "torque"), r"(\d+)\s*[Nn][Mm]"),
-        "weight_kg":          _extract_float(get("kerb weight", "curb weight", "weight"), r"(\d+)"),
-        "zero_to_100_stock":  _extract_float(get("0 - 100", "0-100", "0 to 100"), r"(\d+\.?\d*)"),
-        "top_speed_stock":    _extract_float(get("top speed", "max speed"), r"(\d+)"),
-        "drag_coefficient":   _extract_float(get("drag", "cd"), r"(0\.\d+)"),
-        "drivetrain":         get("drive", "drivetrain") or None,
-        "engine_cc":          _extract_float(get("displacement", "engine size", "cubic"), r"(\d{3,4})"),
-        "_raw": raw,
+        "source_url":         url,
+        "raw_title":          raw_title,
+        "hp_stock":           _num(raw.get("horsepower", ""), r"(\d+)"),    # bhp ≈ hp
+        "torque_nm_stock":    _num(raw.get("torque", ""), r"(\d+)\s*[Nn][Mm]"),
+        "weight_kg":          _num(raw.get("weight", ""), r"(\d+)"),
+        "zero_to_100":        zero_60,   # 0-60 mph ≈ 0-100 km/h, ~0.1s difference
+        "top_speed_kph":      round(top_speed_mph * 1.60934) if top_speed_mph else None,
+        "top_speed_mph":      top_speed_mph,
+        "engine_cc":          _num(raw.get("engine size", ""), r"(\d+)"),
+        "drivetrain":         raw.get("drivetrain"),
+        "transmission":       raw.get("transmission"),
+        "fuel_type":          raw.get("fuel type"),
+        "cylinders":          _num(raw.get("cylinders", ""), r"(\d+)"),
+        "co2_gkm":            _num(raw.get("co2", ""), r"(\d+)"),
+        "_raw": raw,   # full dump — useful for debugging or adding more columns later
     }
 
 
-def scrape_ultimatespecs_batch(urls: list[str]) -> pd.DataFrame:
-    """Scrape multiple ultimatespecs pages and return as a DataFrame."""
+def scrape_parkers_batch(urls: list[str]) -> pd.DataFrame:
+    """Scrape multiple parkers pages. Returns a DataFrame, one row per car."""
     rows = []
     for url in urls:
         try:
-            rows.append(scrape_ultimatespecs_car(url))
+            rows.append(scrape_parkers(url))
         except Exception as e:
             log.error(f"Failed {url}: {e}")
     return pd.DataFrame(rows)
@@ -136,65 +135,74 @@ def scrape_ultimatespecs_batch(urls: list[str]) -> pd.DataFrame:
 # ---------------------------------------------------------------------------
 # goapr.com — modification specs
 # ---------------------------------------------------------------------------
+#
+# APR publish before/after hp and torque tables for each ECU tune product.
+# Each page covers one turbo+car combination (IS20, IS38, EFR7163, etc.)
+# Figures are wheel horsepower (whp) measured on their in-house dyno.
+#
+# Example pages:
+#   https://www.goapr.com/products/ecu_upgrade_2-0t_gen3_mqb_is20.html
+#   https://www.goapr.com/products/ecu_upgrade_2-0t_gen3_mqb_is38.html
+# ---------------------------------------------------------------------------
 
-def scrape_goapr_product(url: str) -> list[dict]:
+def scrape_goapr(url: str) -> list[dict]:
     """
-    Scrape power figures from an APR product page.
+    Scrape power figures from one APR product page.
 
-    APR pages typically contain one or more HTML tables with columns like:
-    Vehicle | Stock HP | Stock TQ | Stage HP | Stage TQ
-    (exact column names vary per product).
+    APR pages have HTML tables with columns like:
+      Vehicle | Stock HP | Stock TQ | Stage 1 HP | Stage 1 TQ | ...
+    Column names vary per page — all raw columns are kept so you can inspect them.
 
-    Returns a list of dicts — one per data row found across all matching
-    tables on the page.  Each dict includes the source URL and the full
-    raw row so you can decide which columns map to what.
+    Returns a list of dicts (one per vehicle row in the table).
+    hp_type is always 'whp' — APR publish wheel figures.
     """
-    soup = _get_soup(url)
-    results: list[dict] = []
+    soup = _fetch(url)
+    results = []
 
     for table in soup.find_all("table"):
         headers = [th.get_text(strip=True).lower() for th in table.find_all("th")]
-        # Only process tables that look like power/torque tables
+        # Only care about tables that have power/torque data
         if not any(kw in " ".join(headers) for kw in ("hp", "tq", "horsepower", "torque", "whp")):
             continue
-
-        for tr in table.find_all("tr")[1:]:  # skip header row
+        for tr in table.find_all("tr")[1:]:
             cells = [td.get_text(strip=True) for td in tr.find_all("td")]
             if len(cells) < 2 or not cells[0]:
                 continue
             row = dict(zip(headers, cells))
             row["source_url"] = url
+            row["hp_type"] = "whp"
             results.append(row)
-            log.info(f"  APR row: {row}")
 
     if not results:
-        log.warning("No power tables found on APR page — check URL or page structure.")
-
+        log.warning(f"No power tables found at {url}")
     return results
 
 
 def scrape_goapr_batch(urls: list[str]) -> pd.DataFrame:
-    """Scrape multiple APR pages and return as a DataFrame."""
     rows = []
     for url in urls:
         try:
-            rows.extend(scrape_goapr_product(url))
+            rows.extend(scrape_goapr(url))
         except Exception as e:
             log.error(f"Failed {url}: {e}")
     return pd.DataFrame(rows)
 
 
 # ---------------------------------------------------------------------------
-# Save helpers
+# CSV helpers
 # ---------------------------------------------------------------------------
 
 def save_csv(df: pd.DataFrame, path: str) -> None:
+    """Save a DataFrame to CSV (overwrites if exists)."""
     df.to_csv(path, index=False)
     log.info(f"Saved {len(df)} rows → {path}")
 
 
 def append_csv(new_rows: list[dict], path: str) -> pd.DataFrame:
-    """Append rows to an existing CSV (or create it if missing)."""
+    """
+    Add rows to a CSV file. Creates the file if it doesn't exist yet.
+    Use this for builds where you're adding rows one session at a time.
+    """
     try:
         existing = pd.read_csv(path)
         combined = pd.concat([existing, pd.DataFrame(new_rows)], ignore_index=True)
