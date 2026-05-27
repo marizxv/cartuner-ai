@@ -1,0 +1,46 @@
+mod_id,mod_name,mod_category,typical_hp_gain_pct,typical_tq_gain_pct,typical_hp_gain_abs,typical_tq_gain_abs,compatible_makes,compatible_models,difficulty_level,typical_cost_usd,notes,source_url
+MOD_3BD6FDD6,Stage 1 ECU Remap — Petrol Turbo,ECU Tune,18.0,22.0,,,VW;Audi;Skoda;Seat;BMW;Ford;Opel;Renault;Peugeot;Citroen;Mercedes,All turbocharged petrol,Professional,350,"Bolt-on safe. Remaps boost, ignition, fuelling. Typical 15-25% gain.",static_curated
+MOD_2F757445,Stage 2 ECU Remap — Petrol Turbo,ECU Tune,32.0,38.0,,,VW;Audi;Skoda;Seat;BMW;Ford;Opel,All turbocharged petrol,Professional,700,Requires intake + downpipe minimum. 25-45% gain.,static_curated
+MOD_2CC340E6,Stage 3 ECU Remap — Petrol Turbo,ECU Tune,55.0,60.0,,,VW;Audi;BMW;Subaru;Mitsubishi,Turbocharged petrol with upgraded turbo,Professional,1200,"Requires upgraded turbo, injectors, intercooler, fuelling. 50-70% gain.",static_curated
+MOD_C70BFA31,Stage 1 ECU Remap — Diesel TDI/TDCi/CDI,ECU Tune,22.0,30.0,,,VW;Audi;BMW;Mercedes;Ford;Opel;Renault;Peugeot,All turbodiesel,Professional,300,"Diesel responds very well to remapping. 20-30% hp, 25-40% tq.",static_curated
+MOD_5B6FCC23,Stage 2 ECU Remap — Diesel,ECU Tune,42.0,52.0,,,VW;Audi;BMW;Mercedes;Ford,All turbodiesel,Professional,600,May require EGR/DPF delete. Check local laws.,static_curated
+MOD_D0F90518,DSG / TCU Remap,ECU Tune,4.0,10.0,,,VW;Audi;Skoda;Seat;BMW;Mercedes,DSG/DCT/ZF automatic gearbox models,Professional,300,"Higher torque limit, faster shifts. Usually done alongside ECU remap.",static_curated
+MOD_FC00AE6E,Hondata FlashPro — Honda,ECU Tune,12.0,10.0,,,Honda,Civic Type R FK2/FK8;Civic Si;Integra,DIY-capable,695,Full ECU access via OBD. Live tuning capable.,static_curated
+MOD_BBA11597,Cobb Accessport — Subaru/Porsche/Ford,ECU Tune,14.0,18.0,,,Subaru;Mitsubishi;Ford;Porsche;Nissan,WRX;WRX STI;Evo;Focus ST/RS;GT86,DIY-capable,700,OTS maps available. Custom tuning via AP3. Most popular for Subaru.,static_curated
+MOD_5C4C6997,Cold Air Intake / Induction Kit,Intake,3.0,2.0,,,All,All,DIY,150,Best combined with ECU remap. Improves throttle response and sound.,static_curated
+MOD_E5B0D0FA,Panel Air Filter Upgrade (K&N / Pipercross),Intake,1.0,1.0,,,All,All,DIY,55,"Drop-in OEM housing filter. Minimal gains, very cheap.",static_curated
+MOD_07377058,Carbon Fibre Intake System,Intake,5.0,3.0,,,VW;Audi;BMW;Subaru;Honda,Performance models,DIY,400,Better heat insulation than aluminium intake pipes.,static_curated
+MOD_7CA89CA1,Cat-Back Exhaust System,Exhaust,3.0,2.0,,,All,All,Professional,650,After-cat exhaust. Main benefit is sound. Small power gain.,static_curated
+MOD_4C7FDB05,Turbo-Back Exhaust with High-Flow Cat,Exhaust,8.0,7.0,,,VW;Audi;BMW;Ford;Subaru;Mitsubishi,Turbocharged models,Professional,950,Significant flow improvement. Decat downpipe + cat-back.,static_curated
+MOD_D9E2982A,Downpipe / Decat Pipe,Exhaust,6.0,5.0,,,VW;Audi;BMW;Subaru;Mitsubishi;Ford,Turbocharged models,Professional,350,Removes catalyst restriction on turbo outlet. Needs remap for full benefit.,static_curated
+MOD_1FC358FF,Sports Cat (200 cell) Downpipe,Exhaust,4.0,4.0,,,VW;Audi;BMW;Ford;Subaru,Turbocharged models,Professional,280,Road-legal alternative to full decat. Reduces back pressure significantly.,static_curated
+MOD_CC4C792F,Front-Mount Intercooler Upgrade (FMIC),Intercooler,5.0,5.0,,,VW;Audi;BMW;Subaru;Ford;Opel;Mitsubishi,Turbocharged models,Professional,500,"Reduces IAT, more consistent power. Required for Stage 2+.",static_curated
+MOD_979DF24F,Top-Mount Intercooler Upgrade (TMIC),Intercooler,4.0,4.0,,,Subaru;Mitsubishi;Saab,Impreza WRX/STI;Evo;9-3 Turbo,Professional,450,Reduces heat soak. Popular on Subaru EJ engines.,static_curated
+MOD_626BAFAE,Intercooler Spray Kit (Water Mist),Intercooler,3.0,3.0,,,All,Turbocharged models,DIY,120,Sprays water mist on intercooler. Reduces IAT by 5-15°C. Cheap effective solution.,static_curated
+MOD_599306EA,Hybrid Turbocharger Upgrade,Turbo Upgrade,25.0,30.0,,,VW;Audi;BMW;Subaru;Mitsubishi,IS20;IS38;N54;N55;EJ257;4B11T,Professional,1200,Upgraded compressor/turbine in OEM housing. Bolt-on. Needs remap + fuelling.,static_curated
+MOD_F821421E,Full Turbo Swap (Larger Turbocharger),Turbo Upgrade,55.0,50.0,,,VW;Audi;Subaru;Mitsubishi;Ford,Turbocharged models,Professional,2500,"Full turbo swap. Requires fuelling, FMIC, remap, possibly forged internals.",static_curated
+MOD_8DF9EB3A,IS38 Turbo Upgrade (for IS20 cars),Turbo Upgrade,30.0,35.0,70.0,90.0,VW;Audi;Skoda;Seat,Golf GTI Mk7;Polo GTI;A3 2.0 TFSI;Leon Cupra,Professional,900,IS38 is a direct bolt-on to IS20 cars. Common upgrade on Mk7 GTI. Needs remap.,static_curated
+MOD_BCDBDB81,High-Flow Fuel Injectors,Fuelling,0.0,0.0,,,All,High-power turbocharged,Professional,400,Enabling mod — allows higher power levels. No standalone gain.,static_curated
+MOD_262FFE72,High-Pressure Fuel Pump (HPFP) Upgrade,Fuelling,0.0,0.0,,,VW;Audi;BMW;Subaru,Direct injection turbocharged,Professional,300,Required for E30/E85 tunes or Stage 3+. Enabling mod.,static_curated
+MOD_55CBA111,E85 / Ethanol Flex Fuel Conversion,Fuelling,18.0,15.0,,,VW;Audi;Subaru;Mitsubishi;BMW,Turbocharged with upgraded fuelling,Professional,600,E85 allows more boost and timing advance. Requires HPFP + injector upgrades.,static_curated
+MOD_61ACF18F,Supercharger Kit — Roots/Twin-Screw,Supercharger,42.0,38.0,,,Ford;Chevrolet;BMW;Toyota;Honda;Mazda,Naturally aspirated V6/V8,Professional,4200,Bolt-on complete kit. Linear power delivery. No lag. Popular on NA V8s.,static_curated
+MOD_B252A234,Supercharger Pulley Upgrade,Supercharger,8.0,7.0,,,Ford;Chevrolet;Toyota,"Supercharged models (Mustang GT500, Camaro ZL1, Corolla GR)",Professional,300,Smaller pulley = more boost. Cheap and effective on existing supercharged cars.,static_curated
+MOD_7591256E,Nitrous Oxide System — Dry Kit (50 hp),Nitrous,,,50.0,40.0,All,Naturally aspirated,Professional,600,50 hp shot. Temporary when activated. Needs fresh plugs and timing retard.,static_curated
+MOD_D36B5EF7,Nitrous Oxide System — Wet Kit (100 hp),Nitrous,,,100.0,80.0,All,Strong engine required,Professional,950,Injects fuel + N2O simultaneously. Requires forged internals for reliability.,static_curated
+MOD_2818E4AC,Water/Methanol Injection Kit,Fuel Additives,10.0,8.0,,,All,Turbocharged models,Professional,500,"Cools intake charge, allows more boost/timing. Popular on IS20/IS38 Stage 2+.",static_curated
+MOD_3CFD27F1,Coilover Suspension Kit,Suspension,0.0,0.0,,,All,All,Professional,1100,"Improves handling, not power. Adjustable ride height and damping.",static_curated
+MOD_C8085868,Sway Bar / Anti-Roll Bar Upgrade,Suspension,0.0,0.0,,,All,All,DIY,220,Reduces body roll significantly. No power gain.,static_curated
+MOD_7B0A2B0B,Strut Brace / Chassis Brace,Suspension,0.0,0.0,,,All,All,DIY,150,Improves chassis rigidity. Better turn-in and steering feel.,static_curated
+MOD_3F58E3BF,Big Brake Kit (BBK) — 4-piston,Brakes,0.0,0.0,,,All,All,Professional,1600,Larger rotors + multi-piston calipers. Needed for 300+ hp track use.,static_curated
+MOD_4B676AF6,Forged Pistons + Connecting Rods,Engine Internals,0.0,0.0,,,All,All,Professional,2200,Enabling mod for 400+ hp builds. Required for high boost reliability.,static_curated
+MOD_E81C344C,Ported and Polished Cylinder Head,Engine Internals,10.0,8.0,,,All,All,Professional,1300,Improves airflow through head. Best combined with cam upgrades.,static_curated
+MOD_B0A96248,Performance Camshaft Upgrade,Engine Internals,8.0,6.0,,,Honda;Toyota;Subaru;BMW;Ford;Mazda,High-rev naturally aspirated,Professional,850,More lift/duration. Moves power band higher. Needs remap. Popular on K-series/B-series.,static_curated
+MOD_94672A37,Stroker Kit (Increased Displacement),Engine Internals,15.0,20.0,,,Honda;Subaru;Ford;Chevrolet,B16;B18;EJ20;EJ25;LS,Professional,3500,Increases engine displacement via longer stroke crankshaft.,static_curated
+MOD_F18C989E,Electronic Boost Controller,Boost Control,8.0,8.0,,,All,Turbocharged models,Professional,250,Precise boost control. Safer than manual boost controller. Needs custom tune.,static_curated
+MOD_CB4B9171,Blow-Off Valve / Diverter Valve Upgrade,Boost Control,1.0,1.0,,,VW;Audi;Subaru;Mitsubishi;BMW,Turbocharged models,DIY,130,Prevents compressor surge. Reliability + sound improvement.,static_curated
+MOD_04DD2C44,Limited Slip Differential (LSD),Drivetrain,0.0,0.0,,,All,All,Professional,1600,"Reduces wheelspin, improves exit traction. Essential for high-power FWD/RWD.",static_curated
+MOD_189C6421,Short-Throw Shifter,Transmission,0.0,0.0,,,All,Manual transmission,DIY,160,Reduces gear throw by 30-50%. No power gain.,static_curated
+MOD_46296A80,Performance Clutch Kit,Transmission,0.0,0.0,,,All,Manual transmission,Professional,700,Handles higher torque for Stage 2+ builds. Required at 350+ Nm.,static_curated
+MOD_ACFEF1D6,Front Splitter,Aerodynamics,0.0,0.0,,,All,All,DIY,200,Increases front downforce. Effect significant only above 150 km/h.,static_curated
+MOD_02ADEC8D,Rear Wing / Spoiler,Aerodynamics,0.0,0.0,,,All,All,DIY,320,Adds rear downforce. Can slightly increase drag.,static_curated
+MOD_132A68F6,Diffuser (Rear Underbody),Aerodynamics,0.0,0.0,,,All,All,Professional,350,Reduces drag and lift at rear. Noticeable above 180 km/h.,static_curated
