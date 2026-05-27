@@ -1,0 +1,26 @@
+build_id,car_id,make,model,variant,year,mods_applied,mod_description,result_hp,result_torque,result_0_100,result_top_speed,result_quarter_mile,measurement_type,source_type,source_url
+BUILD_A958C3A3,CAR_5256C2C6,VW,Golf GTI,Mk7 2.0 TSI IS20,2015,Stage 1 ECU;Cold Air Intake,APR Stage 1 ECU remap + aftermarket intake,260,360,6.0,255,13.9,dyno,community,static_curated
+BUILD_7C05A9E0,CAR_5256C2C6,VW,Golf GTI,Mk7 2.0 TSI IS20,2015,Stage 2 ECU;Cold Air Intake;Downpipe;Intercooler,APR Stage 2: ECU + intake + downpipe + FMIC,320,430,5.3,270,13.2,dyno,community,static_curated
+BUILD_CD8901F7,CAR_5256C2C6,VW,Golf GTI,Mk7.5 2.0 TSI IS38,2018,Stage 1 ECU,Unitronic Stage 1 ECU remap only,295,410,5.5,262,13.5,dyno,community,static_curated
+BUILD_461F8B2C,CAR_5256C2C6,VW,Golf GTI,Mk7.5 2.0 TSI IS38,2018,Stage 2 ECU;Cold Air Intake;Downpipe;Intercooler;DSG Tune,Full Stage 2: ECU + intake + Milltek downpipe + FMIC + DSG remap,380,490,4.8,280,12.8,dyno,community,static_curated
+BUILD_CDB6E66C,CAR_BA0EBC6F,VW,Golf R,Mk7 2.0 TSI 4Motion,2016,Stage 1 ECU,"APR Stage 1 ECU, bolt-on only",360,460,4.5,275,12.8,dyno,community,static_curated
+BUILD_34183F9A,CAR_BA0EBC6F,VW,Golf R,Mk7 2.0 TSI 4Motion,2016,Stage 2 ECU;Downpipe;Intercooler;Intake;DSG Tune,Stage 2 full bolt-on: remap + downpipe + FMIC + intake + DSG,430,520,4.0,285,12.0,dyno,community,static_curated
+BUILD_2D72D476,CAR_C531A25D,Audi,S3,8V 2.0 TFSI,2015,Stage 1 ECU,Revo Stage 1 ECU remap,340,450,4.6,272,13.0,dyno,community,static_curated
+BUILD_B27298B0,CAR_C531A25D,Audi,S3,8V 2.0 TFSI,2015,Stage 2 ECU;Downpipe;Intercooler;Intake,Stage 2: Revo ECU + VRSF downpipe + FMIC + intake,400,510,4.1,285,12.4,dyno,community,static_curated
+BUILD_9343197F,CAR_813EA7A5,BMW,M3,F80 3.0 S55,2016,Stage 1 ECU;Downpipe,MHD Stage 2 flash + catless downpipes,480,620,3.8,300,11.8,dyno,community,static_curated
+BUILD_BCAE3A12,CAR_C56A2FD9,BMW,M4,F82 3.0 S55,2017,Stage 2 ECU;Downpipe;Intercooler;Charge Pipe,MHD Stage 2 + Wagner FMIC + catless DP + charge pipe,530,680,3.6,310,11.4,dyno,community,static_curated
+BUILD_6EA5F78F,CAR_7C9F1F7C,Subaru,WRX STI,VA 2.5 EJ257,2016,Stage 1 ECU;Intake;Downpipe,Cobb Accessport Stage 2: OTS map + intake + Invidia DP,340,440,5.0,255,13.2,dyno,community,static_curated
+BUILD_485FA20B,CAR_7C9F1F7C,Subaru,WRX STI,VA 2.5 EJ257,2016,Stage 2 ECU;Turbo Upgrade;Intercooler;Injectors;Fuel Pump,Tomei turbo + TMIC + injectors + E85 tune + forged internals,500,600,3.8,280,11.5,dyno,community,static_curated
+BUILD_184F50E5,CAR_DBAA02F6,Honda,Civic Type R,FK8 2.0 K20C1,2018,Stage 1 ECU;Intake,Hondata FlashPro Stage 1 + J's Racing intake,340,420,5.5,275,13.5,dyno,community,static_curated
+BUILD_FB31B254,CAR_DBAA02F6,Honda,Civic Type R,FK8 2.0 K20C1,2018,Stage 2 ECU;Intake;Turbo Upgrade;Intercooler;Downpipe,Precision 6266 turbo + FMIC + Hondata tune + full exhaust,500,560,4.2,295,11.8,dyno,community,static_curated
+BUILD_C3C44220,CAR_B6CF4A99,Mitsubishi,Lancer Evo X,CZ4A 2.0 4B11T,2010,Stage 1 ECU;Intake;Downpipe,EvoTune Stage 2 map + Injen intake + catless DP,380,480,4.2,275,12.5,dyno,community,static_curated
+BUILD_F088A5FB,CAR_B6CF4A99,Mitsubishi,Lancer Evo X,CZ4A 2.0 4B11T,2010,Stage 2 ECU;Turbo Upgrade;Intercooler;Injectors;Exhaust,Garrett GTX3076R + FMIC + 1000cc injectors + EvoTune aggressive map,550,640,3.4,290,10.8,dyno,community,static_curated
+BUILD_3FA92D60,CAR_810C303A,Ford,Focus ST,Mk3 2.0 EcoBoost,2014,Stage 1 ECU;Intake,Mountune Stage 1 remap + upgraded intake,280,390,5.8,255,13.8,dyno,community,static_curated
+BUILD_FFC2FAB2,CAR_810C303A,Ford,Focus ST,Mk3 2.0 EcoBoost,2014,Stage 2 ECU;Intercooler;Intake;Downpipe,Mountune MP275 kit: ECU + FMIC + intake + downpipe,310,430,5.3,262,13.3,dyno,community,static_curated
+BUILD_ACFA8BB3,CAR_375399BD,Renault,Megane RS,Mk3 2.0 Turbo,2013,Stage 1 ECU;Intake,Remap to 280 hp + aftermarket intake,280,380,6.0,255,14.0,dyno,community,static_curated
+BUILD_19C2A555,CAR_0385B6A8,Toyota,GR Yaris,GXPA16 1.6 G16E-GTS,2021,Stage 1 ECU;Intake,Ecutek Stage 1 + Ramair intake,290,400,5.0,240,13.3,dyno,community,static_curated
+BUILD_5BB04B70,CAR_0385B6A8,Toyota,GR Yaris,GXPA16 1.6 G16E-GTS,2021,Stage 2 ECU;Intercooler;Intake;Exhaust,Ecutek Stage 2 + FMIC + catback exhaust,360,470,4.3,255,12.4,dyno,community,static_curated
+BUILD_149F98A1,CAR_BC5038A5,Mercedes,A45 AMG,W176 2.0 M133,2016,Stage 1 ECU;Intake,Weistec W.1 ECU upgrade + performance intake,415,530,4.0,280,12.2,dyno,community,static_curated
+BUILD_DC7E3215,CAR_DD426F4C,VW,Polo GTI,AW 2.0 TSI,2019,Stage 1 ECU,Revo Stage 1 remap only,230,330,6.4,240,14.5,dyno,community,static_curated
+BUILD_DD7C84FA,CAR_56F83E9F,Skoda,Octavia RS,5E 2.0 TSI,2017,Stage 1 ECU;Intake,Unitronic Stage 1 + K&N intake,260,380,6.2,255,14.0,dyno,community,static_curated
+BUILD_610442E1,CAR_56F83E9F,Skoda,Octavia RS,5E 2.0 TSI,2017,Stage 2 ECU;Intercooler;Downpipe;Intake;DSG Tune,Unitronic Stage 2 full package with DSG flash,350,460,5.3,265,13.0,dyno,community,static_curated
