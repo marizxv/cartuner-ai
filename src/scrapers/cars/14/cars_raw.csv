@@ -1,0 +1,2 @@
+car_id,make,model,variant,raw_title,year_from,year_to,displacement_cc,cylinders,stock_hp,stock_torque_nm,weight_kg,drivetrain,transmission,engine_type,fuel_type,drag_coef,frontal_area_m2,top_speed_stock,top_speed_mph,zero_hundred_stock,co2_gkm,source_url
+CAR_EAE40BB8,Toyota,Yaris,10 vvt i active (0714 ) 3d,Toyota Yaris Hatchback1.0 VVT-i Active (07/14-) 3d Specs & dimensions,2011,,998.0,3.0,68.0,95.0,1040.0,Front wheel drive,Manual,Naturally Aspirated,Petrol,,,154.5,96.0,14.8,99.0,https://www.parkers.co.uk/toyota/yaris/hatchback-2011/10-vvt-i-active-(0714-)-3d/specs/
