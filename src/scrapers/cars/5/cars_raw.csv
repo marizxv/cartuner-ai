@@ -1,0 +1,2 @@
+car_id,make,model,variant,raw_title,year_from,year_to,displacement_cc,cylinders,stock_hp,stock_torque_nm,weight_kg,drivetrain,transmission,engine_type,fuel_type,drag_coef,frontal_area_m2,top_speed_stock,top_speed_mph,zero_hundred_stock,co2_gkm,source_url
+CAR_8B46A6C9,Bmw,3 Series,2d,BMW 3-Series M3 Coupe2d Specs & dimensions,2001,,3246.0,6.0,338.0,365.0,1495.0,Rear wheel drive,Manual,Naturally Aspirated,Petrol,,,249.4,155.0,5.0,323.0,https://www.parkers.co.uk/bmw/3-series/m3-coupe-2001/2d/specs/
