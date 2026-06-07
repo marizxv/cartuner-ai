@@ -1,16 +1,14 @@
-# CarTuner AI — Automotive Performance Dataset & Data-Preparation Pipeline
+# CarTuner AI - Automotive Performance Dataset & Data-Preparation Pipeline
 
 A documented dataset and end-to-end data-preparation pipeline for predicting vehicle
-performance from specifications. Built for the **Data Preparation for Artificial
-Intelligence** course, where the focus is *data-centric AI*: the model is deliberately
-simple (linear regression), and the story is how data preparation — not model choice —
-drives prediction quality.
+performance from specifications. Built for the *Data Preparation for Artificial Intelligence*
+course, where the focus is data-centric AI: the model is deliberately simple (linear
+regression), and the point is how data preparation, not model choice, drives prediction quality.
 
-> **Headline result:** on the same data and the same linear model, careful cleaning and
-> feature engineering cut the prediction error nearly in half — cross-validated MAE from
-> **1.44 s → 0.68 s**, R² from **0.72 → 0.91**. The single biggest gain came from one
-> feature (`log(power_to_weight)`) that matched the data's representation to the underlying
-> physics.
+> Main result: on the same data and the same linear model, cleaning and feature engineering
+> cut the prediction error nearly in half - cross-validated MAE from 1.44 s to 0.68 s, and R²
+> from 0.72 to 0.91. Most of that gain came from a single feature, `log(power_to_weight)`,
+> which matches the data's representation to the underlying physics.
 
 ---
 
@@ -18,11 +16,11 @@ drives prediction quality.
 
 The project builds three related tables and demonstrates two prediction tasks:
 
-- **Model A — stock performance** (the main demonstration): predict a car's 0–100 km/h time
+- Model A (stock performance) - the main demonstration. Predicts a car's 0–100 km/h time
   from its spec sheet. Runs on real, scraped data and carries the full data-prep journey.
-- **Model B — post-modification performance** (the project's goal): predict a car's 0–100
-  time *after* a tuning modification. Requires joining all three tables, and is presented
-  honestly as a pipeline proof-of-concept (see [Known limitations](#known-limitations--assumptions)).
+- Model B (post-modification performance) - the project's goal. Predicts a car's 0–100 time
+  after a tuning modification. Requires joining all three tables, and is presented as a
+  pipeline proof-of-concept (see [Known limitations](#known-limitations--assumptions)).
 
 ---
 
@@ -46,8 +44,8 @@ The `builds` table combines three sources of differing quality, each tagged with
 | `synthetic` | 300 | 0.40 | physics-generated (see limitations) |
 
 A larger, fully-synthetic augmentation (14,913 rows) is kept separately in
-`data/raw/builds_raw_augmented.csv` / the `builds_augmented` DB table. It is **not** used for
-modelling — it exists to show what naïve over-augmentation produces.
+`data/raw/builds_raw_augmented.csv` and the `builds_augmented` DB table. It is not used for
+modelling; we keep it to show what naive over-augmentation produces.
 
 The full data dictionary (column names, units, keys) is in
 [`schema/schema.sql`](schema/schema.sql).
@@ -74,17 +72,18 @@ cartuner-ai/
 │   ├── 01_collection.ipynb      # data collection (scraping)
 │   ├── 02_baseline_dirty.ipynb  # baseline model on raw data
 │   ├── 03_cleaning.ipynb        # audit, MCAR/MAR/MNAR, cleaning
-│   ├── 04_features.ipynb        # feature engineering (the big win)
+│   ├── 04_features.ipynb        # feature engineering (the main gain)
 │   └── 05_builds_analysis.ipynb # 3-table integration + Model B
 ├── src/
 │   ├── scraper.py               # single-page parkers/APR scraper (demo)
 │   ├── scraper_cars.py          # full parkers crawler (produced cars_raw)
 │   ├── scraper_mods.py          # modifications scraper
-│   ├── scraper_builds.py        # builds scraper (dragtimes/fastestlaps)
+│   ├── scraper_builds.py        # builds scraper (dragtimes)
 │   └── build_db.py              # assembles cartuner.db from the CSVs
 ├── schema/
 │   └── schema.sql               # data dictionary for the three tables
-├── docs/                        # exported figures used in the report
+├── docs/                        # exported figures
+│   └── finals/                  # final presentation (PDF)
 └── requirements.txt
 ```
 
@@ -97,72 +96,76 @@ from raw data to a feature-engineered dataset and two models.
 
 | # | Notebook | What it does | Key output |
 |---|----------|--------------|-----------|
-| 01 | `01_collection` | Demonstrates the web-scraping approach used to gather specs and mods | raw CSVs |
+| 01 | `01_collection` | Demo of the scraping approach only (not the actual run, see note below) | - |
 | 02 | `02_baseline_dirty` | Trains the model on raw data with minimal preprocessing, to set a floor | `baseline_scores.json` |
 | 03 | `03_cleaning` | Audits the data, classifies missingness (MCAR/MAR/MNAR), cleans and imputes | `cars_clean.csv` |
 | 04 | `04_features` | Engineers physics-informed features, one at a time, measuring each | `cars_features.csv` |
-| 05 | `05_builds_analysis` | Audits the builds table, resolves entities, joins all three tables, builds Model B | — |
+| 05 | `05_builds_analysis` | Audits the builds table, resolves entities, joins all three tables, builds Model B | - |
 
-**Metric:** all notebooks report **5-fold cross-validated MAE** (mean absolute error, in
-seconds — lower is better) as the honest headline number, alongside R².
+Metric: all notebooks report 5-fold cross-validated MAE (mean absolute error, in seconds,
+lower is better) as the headline number, alongside R².
+
+Note on notebook 01: it is an early demonstration of the scraping approach, not the step that
+produced the dataset. The real tables came from the crawlers in `src/scraper_cars.py`,
+`scraper_mods.py`, and `scraper_builds.py`. Do not run notebook 01 top-to-bottom: it writes to
+`data/raw/` and would overwrite the real CSVs with a small sample.
 
 ---
 
 ## Key results
 
-### Model A — stock 0–100 km/h prediction
+### Model A - stock 0–100 km/h prediction
 
 | Stage | CV MAE (s) | R² | What changed |
 |-------|-----------:|---:|--------------|
 | Dirty baseline (nb 02) | 1.44 | 0.72 | raw data, raw features |
-| After cleaning (nb 03) | 1.43 | 0.73 | nulls fixed — *barely moves the score* |
-| + `log(power_to_weight)` (nb 04) | 0.68 | 0.91 | linearised the power law — **the breakthrough** |
+| After cleaning (nb 03) | 1.43 | 0.73 | nulls fixed, barely moves the score |
+| + `log(power_to_weight)` (nb 04) | 0.68 | 0.91 | linearised the power law, the key step |
 | Final (all features, nb 04) | 0.68 | 0.91 | diminishing returns after the key feature |
 
-The lesson: **cleaning made the data correct; feature engineering made it useful.** Adding
-the *raw* power-to-weight ratio actually hurt (the relationship is non-linear); taking its
-logarithm turned the curve into a straight line the model could fit.
+What this shows: cleaning made the data correct, feature engineering made it useful. Adding
+the raw power-to-weight ratio actually hurt (the relationship is non-linear); taking its
+logarithm brought it much closer to a straight line the model could fit.
 
-### Model B — post-modification prediction
+### Model B - post-modification prediction
 
-Joining `builds ⋈ cars ⋈ modifications` and training on the synthetic builds yields a
-near-perfect CV R² of **0.997** — which the analysis flags as a **warning, not a success**:
-the synthetic targets were generated by a physics formula, so the model is reverse-engineering
-that formula rather than learning from reality. This is the data-centric / GIGO lesson made
-concrete.
+Joining `builds ⋈ cars ⋈ modifications` and training on the synthetic builds gives a
+near-perfect CV R² of 0.997, which we flag as a red flag rather than a success: the synthetic
+targets were generated by a physics formula, so the model reverse-engineers that formula
+rather than learning from reality. This is the data-centric / GIGO lesson made concrete.
 
 ---
 
 ## Data sources
 
-- **Stock specs:** [parkers.co.uk](https://www.parkers.co.uk) — structured UK-market spec pages.
-- **Modifications:** curated catalogue informed by APR (goapr.com) and RaceChip published figures.
-- **Builds:** community tuning forums (hand-collected), [dragtimes.com](https://www.dragtimes.com)
+- Stock specs: [parkers.co.uk](https://www.parkers.co.uk), structured UK-market spec pages.
+- Modifications: curated catalogue informed by APR (goapr.com) and RaceChip published figures.
+- Builds: community tuning forums (hand-collected), [dragtimes.com](https://www.dragtimes.com)
   ¼-mile timeslips, and physics-based synthesis.
 
 ---
 
 ## Known limitations & assumptions
 
-Documented honestly, as required for a data-preparation deliverable:
-
-1. **0–100 km/h is approximated from 0–60 mph.** Parkers publishes 0–60 mph; we store it as
+1. 0–100 km/h is approximated from 0–60 mph. Parkers publishes 0–60 mph; we store it as
    `zero_hundred_stock`. The two differ by roughly 0.1–0.2 s (100 km/h ≈ 62 mph), so all stock
-   times are marginally optimistic versus a true 0–100 km/h figure. Consistent across the
-   dataset, so it does not affect *relative* comparisons.
-2. **Synthetic builds dominate the builds table (300 of 372).** They are clearly labelled
+   times are marginally optimistic versus a true 0–100 km/h figure. It is consistent across the
+   dataset, so it does not affect relative comparisons.
+2. Synthetic builds dominate the builds table (300 of 372). They are clearly labelled
    (`source_type = 'synthetic'`, `confidence = 0.40`) and generated by
-   `t_mod = t_stock × (hp_stock / hp_mod)^0.6` with ±5 % noise. Any model trained on them is
-   self-consistent by construction — see Model B above.
-3. **Foreign keys only link cleanly for synthetic builds.** Real builds required entity
-   resolution (make-name normalisation). After it, all 30 community and 37/42 dragtimes rows
-   match the cars table; the rest (Tesla, Oldsmobile, and a Buell *motorcycle*) are genuinely
-   absent and left unlinked rather than forced.
-4. **Mixed horsepower conventions.** `cars.stock_hp` is manufacturer crank bhp; forum
+   `t_mod = t_stock × (hp_stock / hp_mod)^0.6` with ±5% noise. Any model trained on them is
+   self-consistent because of how they were built (see Model B above).
+3. Foreign keys only link cleanly for synthetic builds. Real builds needed entity resolution
+   (make-name normalisation). After it, all 30 community and 37/42 dragtimes rows match the
+   cars table; the rest (Tesla, Oldsmobile, and a Buell motorcycle) are genuinely absent and
+   left unlinked rather than forced.
+4. Mixed horsepower conventions. `cars.stock_hp` is manufacturer crank bhp; forum
    `builds.result_hp` is typically wheel hp. They are not combined in a single calculation,
    but the distinction matters for any future cross-table hp modelling.
-5. **The "dirty" baseline is minimally preprocessed, not literally raw** — it drops rows with a
-   missing target and median-fills the rest, the bare minimum to train at all.
+5. The "dirty" baseline is minimally preprocessed, not literally raw. It drops rows with a
+   missing target and median-fills the rest, the bare minimum needed to train at all.
+6. Electric vehicles get `cylinders = 0` and `displacement_cc = 0` (structural, not missing),
+   and an `is_ev` flag, rather than median-imputed engine values.
 
 ---
 
@@ -180,21 +183,21 @@ pip install -r requirements.txt
 python3 src/build_db.py
 
 # 3. Run the notebooks in order
-jupyter lab            # then run 01 → 05
+jupyter lab            # then run 01 -> 05
 # or headless:
 for nb in 02_baseline_dirty 03_cleaning 04_features 05_builds_analysis; do
     jupyter nbconvert --to notebook --execute --inplace notebooks/$nb.ipynb
 done
 ```
 
-Notebooks 03–05 read the raw CSVs and `baseline_scores.json`, so run **02 before 03/04** to
-keep the comparison numbers current after any data change.
+Notebooks 03–05 read the raw CSVs and `baseline_scores.json`, so run 02 before 03/04 to keep
+the comparison numbers current after any data change.
 
 ---
 
 ## Future work
 
 - Train a gradient-boosted regression model on the feature-engineered dataset for comparison.
-- Collect more **real** build records to replace the synthetic majority and properly validate Model B.
-- Build the constraint-satisfaction recommendation layer ("which mods reach a target 0–100?").
+- Collect more real build records to replace the synthetic majority and properly validate Model B.
+- Build the recommendation layer ("which mods reach a target 0–100 time?").
 - Normalise `modifications.compatible_makes` from a delimited string into a proper relation.
